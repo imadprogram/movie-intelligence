@@ -19,4 +19,18 @@ def insert_movies():
 
     print(len(result.inserted_ids))
 
+
 insert_movies()
+
+
+
+def run_genre_agg():
+    pipeline = [
+        {'$match' : {'genres':'Action'}}
+    ]
+    found = collection.aggregate(pipeline)
+
+    for movie in found:
+        print(movie["title"])
+
+run_genre_agg()

@@ -7,3 +7,5 @@ requests>=2.31.0
 python-dotenv>=1.0.0
 pandas>=2.0.0
 pymongo>=4.6.0
+matplotlib>=3.11.2
+seaborn>=0.13.2

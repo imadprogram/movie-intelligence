@@ -1,0 +1,52 @@
+services:
+  # 1. MongoDB Database
+  mongodb:
+    image: mongo:latest
+    container_name: movie_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - GLIBC_TUNABLES=glibc.pthread.rseq=1
+    volumes:
+      - mongo_data:/data/db
+
+  # 2. Streamlit Web Dashboard
+  streamlit:
+    build: .
+    container_name: movie_dashboard
+    restart: always
+    ports:
+      - "8501:8501"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/movie_db
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./dashboard:/app/dashboard
+
+  # 3. Apache Airflow Service (using official Apache image)
+  airflow:
+    image: apache/airflow:2.8.1-python3.11
+    container_name: movie_airflow
+    restart: always
+    command: standalone
+    ports:
+      - "8080:8080"
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
+      - PYTHONPATH=/opt/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
+      - ./models:/opt/airflow/models
+      - ./requirements.txt:/opt/airflow/requirements.txt
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo_data:

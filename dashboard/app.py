@@ -250,31 +250,45 @@ with tab2:
         res_col1, res_col2 = st.columns([1, 1])
         with res_col1:
             if prediction == 1:
-                st.success(f"### 🎉 HIGH ENGAGEMENT PREDICTED!\n\n**'{input_title}'** is projected to surpass the median audience engagement threshold.")
+                st.success(f"### 🎉 HIGH ENGAGEMENT PREDICTED!\n\n**'{input_title}'** is projected to surpass the catalog median engagement threshold.")
             else:
                 st.warning(f"### ⚠️ MODERATE / LOW ENGAGEMENT\n\n**'{input_title}'** is projected to achieve average or niche catalog engagement.")
+            
+            # Additional contextual breakdown
+            st.markdown(f"""
+            - **Predicted Label:** `{'High (1)' if prediction == 1 else 'Low/Average (0)'}`
+            - **Engagement Probability:** `{high_prob:.1f}%`
+            - **Decision Threshold:** `50.0%`
+            """)
 
         with res_col2:
             fig_gauge = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=high_prob,
+                number={'suffix': "%", 'font': {'size': 36}},
                 domain={'x': [0, 1], 'y': [0, 1]},
-                title={'text': "Confidence Probability (%)"},
+                title={'text': "<b>High Engagement Probability</b>", 'font': {'size': 17, 'color': '#E0E0E0'}},
                 gauge={
-                    'axis': {'range': [0, 100]},
-                    'bar': {'color': "#E50914" if prediction == 1 else "#F59E0B"},
+                    'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#888"},
+                    'bar': {'color': "#E50914" if prediction == 1 else "#F59E0B", 'thickness': 0.75},
+                    'bgcolor': "#1F232B",
                     'steps': [
-                        {'range': [0, 50], 'color': "#2E3440"},
-                        {'range': [50, 100], 'color': "#3B4252"}
+                        {'range': [0, 50], 'color': "#2A2E39"},
+                        {'range': [50, 100], 'color': "#343A46"}
                     ],
                     'threshold': {
-                        'line': {'color': "white", 'width': 4},
-                        'thickness': 0.75,
+                        'line': {'color': "white", 'width': 3},
+                        'thickness': 0.8,
                         'value': 50.0
                     }
                 }
             ))
-            fig_gauge.update_layout(height=240, margin=dict(l=20, r=20, t=30, b=20))
+            fig_gauge.update_layout(
+                height=280,
+                margin=dict(l=30, r=30, t=65, b=25),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)"
+            )
             st.plotly_chart(fig_gauge, use_container_width=True)
 
 

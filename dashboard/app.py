@@ -14,32 +14,144 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- CUSTOM CSS STYLING ---
+# --- CUSTOM CINEMATIC CSS STYLING ---
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+    /* Global Typography */
+    html, body, [class*="css"], [class*="st-"] {
+        font-family: 'Inter', sans-serif;
+    }
+
+    h1, h2, h3, h4, .main-header {
+        font-family: 'Outfit', sans-serif;
+        letter-spacing: -0.5px;
+    }
+
+    /* Cinematic App Background */
+    .stApp {
+        background: radial-gradient(circle at 15% 15%, rgba(229, 9, 20, 0.07) 0%, transparent 40%),
+                    radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+                    #0b0e14;
+    }
+
+    /* Main Title Styling */
     .main-header {
-        font-size: 2.3rem;
-        font-weight: 700;
-        color: #E50914;
-        margin-bottom: 0.2rem;
+        font-size: 2.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #FFFFFF 30%, #E50914 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.1rem;
+        display: inline-block;
     }
+
     .sub-header {
-        font-size: 1.1rem;
-        color: #A0A0A0;
-        margin-bottom: 1.5rem;
+        font-size: 1.05rem;
+        color: #8E9BAE;
+        font-weight: 400;
+        margin-bottom: 1.8rem;
     }
-    .metric-card {
-        background-color: #1E222A;
+
+    /* Modern Pill Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+        background: rgba(22, 27, 34, 0.75);
+        padding: 8px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+    }
+
+    .stTabs [data-baseweb="tab"] {
         border-radius: 10px;
-        padding: 15px;
-        border: 1px solid #2E3440;
+        padding: 10px 20px;
+        color: #8E9BAE;
+        font-weight: 600;
+        border: none;
+        background-color: transparent;
+        transition: all 0.25s ease;
     }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        color: #FFFFFF;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #E50914 0%, #B81D24 100%) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+    }
+
+    /* Streamlit Metric Containers */
+    [data-testid="stMetric"] {
+        background: rgba(22, 27, 34, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        padding: 18px 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(10px);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    [data-testid="stMetric"]:hover {
+        transform: translateY(-2px);
+        border-color: rgba(229, 9, 20, 0.4);
+    }
+
+    /* Form Container */
+    [data-testid="stForm"] {
+        background: rgba(22, 27, 34, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 24px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Action Buttons */
+    .stButton > button, [data-testid="stForm"] button {
+        background: linear-gradient(135deg, #E50914 0%, #B81D24 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        border-radius: 12px !important;
+        border: none !important;
+        padding: 12px 24px !important;
+        box-shadow: 0 4px 18px rgba(229, 9, 20, 0.35) !important;
+        transition: all 0.25s ease !important;
+    }
+
+    .stButton > button:hover, [data-testid="stForm"] button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 24px rgba(229, 9, 20, 0.55) !important;
+    }
+
+    /* Movie Recommendation Cards */
     .recommend-card {
-        background: linear-gradient(135deg, #1f2430 0%, #2b3345 100%);
-        border-radius: 12px;
-        padding: 18px;
-        margin-bottom: 12px;
+        background: linear-gradient(135deg, rgba(26, 32, 44, 0.85) 0%, rgba(18, 22, 31, 0.95) 100%);
+        border-radius: 14px;
+        padding: 20px 24px;
+        margin-bottom: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
         border-left: 5px solid #E50914;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(10px);
+        transition: all 0.25s ease;
+    }
+
+    .recommend-card:hover {
+        transform: translateX(4px) translateY(-2px);
+        border-left-color: #FF2E36;
+        box-shadow: 0 12px 30px rgba(229, 9, 20, 0.25);
+    }
+
+    /* Sidebar Enhancement */
+    [data-testid="stSidebar"] {
+        background-color: #0d1017 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -202,7 +314,7 @@ with tab2:
             input_budget = st.number_input("Budget (USD)", min_value=0, max_value=500000000, value=75000000, step=5000000)
             input_revenue = st.number_input("Expected Box Office Revenue (USD)", min_value=0, max_value=3000000000, value=220000000, step=10000000)
             input_runtime = st.slider("Runtime (minutes)", min_value=45, max_value=240, value=118)
-            input_popularity = st.slider("TMDB Popularity Score", min_value=0.0, max_value=500.0, value=45.0, step=1.0)
+            input_popularity = st.slider("Expected Marketing Hype / Awareness Score (Catalog Avg: ~20)", min_value=0.0, max_value=500.0, value=25.0, step=1.0)
             
         with col_f2:
             input_year = st.number_input("Release Year", min_value=1950, max_value=2030, value=2026)

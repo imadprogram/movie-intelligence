@@ -80,7 +80,7 @@ flowchart TD
         
         Airflow["dags/movie_pipeline_dag.py\n(Apache Airflow Orchestrator)"] -.->|Planification Hebdomadaire| Extract
         
-        Docker["Docker Compose Stack"] -->|Port 8501| StreamlitApp
+        Docker["Docker Compose Stack"] -->|Port 8502| StreamlitApp
         Docker -->|Port 27017| Mongo
         Docker -->|Port 8080| Airflow
     end
@@ -244,7 +244,7 @@ flowchart LR
 
 L'intégralité du projet est conteneurisée via [`Dockerfile`](file:///home/emad/Desktop/movie%20Intelligence/Dockerfile) et [`docker-compose.yml`](file:///home/emad/Desktop/movie%20Intelligence/docker-compose.yml) :
 * **Service `mongodb` :** Image `mongo:latest` sur port `27017` avec volume persistant `mongo_data`.
-* **Service `streamlit` :** Image custom Python 3.11 sur port `8501`.
+* **Service `streamlit` :** Image custom Python 3.11 sur port `8502` (mappé vers le port interne 8501).
 * **Service `airflow` :** Image officielle `apache/airflow:2.8.1` sur port `8080` exécutée en mode standalone avec montage des volumes `./dags`, `./src`, `./data`, et `./models`.
 
 ---
@@ -269,7 +269,7 @@ Pour démarrer les 3 conteneurs (Base de données, Dashboard, Airflow) en une se
 ```bash
 docker compose up -d
 ```
-* 🌐 **Dashboard Streamlit :** [http://localhost:8501](http://localhost:8501)
+* 🌐 **Dashboard Streamlit :** [http://localhost:8502](http://localhost:8502)
 * 🚀 **Interface Airflow :** [http://localhost:8080](http://localhost:8080)
 * 🍃 **Port MongoDB :** `localhost:27017`
 

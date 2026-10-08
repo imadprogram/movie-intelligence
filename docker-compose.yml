@@ -17,7 +17,7 @@ services:
     container_name: movie_dashboard
     restart: always
     ports:
-      - "8501:8501"
+      - "8502:8501"
     depends_on:
       - mongodb
     environment:
